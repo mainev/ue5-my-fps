@@ -7,6 +7,8 @@
 #include "PlayerCharacter.generated.h"
 
 class UCameraComponent;
+class UInputAction;
+struct FInputActionValue;
 
 UCLASS()
 class MYFPS_API APlayerCharacter : public ACharacter
@@ -21,6 +23,16 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+
+	/** Mouse Look Input Action */
+	UPROPERTY(EditAnywhere, Category = "Input")
+	UInputAction* MouseLookAction;
+
+
+	/** Called for looking input */
+	void Look(const FInputActionValue& Value);
+
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -29,6 +41,14 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 
+
+public:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* FirstPersonCamera;
+
+
+public:
+	/** Handles look inputs from either controls or UI interfaces */
+	UFUNCTION(BlueprintCallable, Category = "Input")
+	virtual void DoLook(float Yaw, float Pitch);
 };
