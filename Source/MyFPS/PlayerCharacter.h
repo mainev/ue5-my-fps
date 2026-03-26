@@ -46,6 +46,9 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* FirstPersonCamera;
 
+	UPROPERTY(VisibleAnywhere)
+	USkeletalMeshComponent* ArmMesh;
+
 
 public:
 	/** Handles look inputs from either controls or UI interfaces */

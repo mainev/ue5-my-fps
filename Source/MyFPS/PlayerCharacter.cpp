@@ -27,13 +27,17 @@ APlayerCharacter::APlayerCharacter()
 	FirstPersonCamera->SetRelativeLocation(CameraLocation);
 
 	// connect mouse input to camera rotation
-	FirstPersonCamera->bUsePawnControlRotation = true;
+	FirstPersonCamera->bUsePawnControlRotation = true; 
 
 	// configure class defaults
-	bUseControllerRotationPitch = false;
-	bUseControllerRotationYaw = false;
+	bUseControllerRotationPitch = true; //true so that arms follow when looking up/down
+	bUseControllerRotationYaw = true; //true so that arms follow when looking left/right
 	bUseControllerRotationRoll = false;
 
+
+	// create the arm and attachment
+	ArmMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("ArmMesh"));
+	ArmMesh->SetupAttachment(FirstPersonCamera);
 }
 
 // Called when the game starts or when spawned
@@ -48,8 +52,6 @@ void APlayerCharacter::Look(const FInputActionValue& Value)
 {
 	// input is a Vector2D
 	FVector2D LookAxisVector = Value.Get<FVector2D>();
-
-	UE_LOG(LogTemp, Display, TEXT("X: %f-----------Y:%f"), LookAxisVector.X, LookAxisVector.Y);
 
 	// route the input
 	DoLook(LookAxisVector.X, LookAxisVector.Y);
